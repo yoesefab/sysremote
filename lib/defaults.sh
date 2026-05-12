@@ -1,0 +1,45 @@
+# * Valeurs globales et codes de retour sysremote.
+
+readonly SYSREMOTE_VERSION="0.1.0"
+
+readonly EX_OK=0
+readonly EX_USAGE=2
+readonly EX_CONFIG=3
+readonly EX_HOST_VALIDATION=4
+readonly EX_PRIVILEGE=10
+readonly EX_SSH=20
+readonly EX_REMOTE=21
+readonly EX_NO_TARGETS=30
+readonly EX_INVALID_OPTION=100
+readonly EX_MISSING_PARAM=101
+
+SSH_USER="${USER:-root}"
+SSH_PORT="22"
+SSH_TIMEOUT="5"
+INVENTORY_FILE=""
+REQUIRE_ROOT="true"
+REMOTE_SUDO="sudo -n"
+DEFAULT_SESSION_COMMAND="who"
+CONFIG_FILE=""
+VERBOSE="false"
+DRY_RUN="false"
+LOG_DIR="/var/log/sysremote"
+LOG_FILE=""
+LOGGING_READY="false"
+EXEC_MODE="normal"
+THREAD_JOBS="4"
+RESTORE_DEFAULTS="false"
+
+CLI_CONFIG_FILE=""
+CLI_CONFIG_EXPLICIT="false"
+CLI_INVENTORY_FILE=""
+CLI_MULTI_HOSTS=""
+CLI_SSH_USER=""
+CLI_SSH_PORT=""
+CLI_SSH_TIMEOUT=""
+CLI_NO_ROOT_CHECK="false"
+CLI_LOG_DIR=""
+
+COMMAND=""
+COMMAND_ARGS=()
+TARGET_HOSTS=()

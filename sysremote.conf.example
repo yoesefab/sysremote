@@ -1,0 +1,22 @@
+# Configuration exemple pour sysremote.
+# Copier vers ./sysremote.conf ou /etc/sysremote/sysremote.conf.
+
+# Login SSH distant. Ne pas mettre user@host dans l'inventaire.
+SSH_USER=admin
+
+# Parametres SSH communs.
+SSH_PORT=22
+SSH_TIMEOUT=5
+
+# Inventaire par defaut, surchargeable avec -i.
+INVENTORY_FILE=./inventory.example
+
+# Controle EUID/root local pour les actions sensibles de gestion de comptes.
+REQUIRE_ROOT=true
+
+# Elevation distante. Mettre une valeur vide si SSH_USER est root.
+# Valeurs acceptees: "", sudo, sudo -n, doas, doas -n
+REMOTE_SUDO="sudo -n"
+
+# Commande par defaut pour `sessions`.
+DEFAULT_SESSION_COMMAND=who
