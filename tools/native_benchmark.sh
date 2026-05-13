@@ -9,6 +9,7 @@ COMMAND="uptime"
 MAX_PROCS=0
 ITERATIONS=3
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 usage() {
     cat <<EOF
@@ -46,15 +47,15 @@ run_mode() {
         [[ "$MAX_PROCS" -gt 0 ]] && mp_arg="--max-procs $MAX_PROCS"
         case "$mode_flag" in
             "-f")
-                local bin="$SCRIPT_DIR/sysremote_fork"
+                local bin="$ROOT_DIR/build/native/sysremote_fork"
                 [[ ! -x "$bin" ]] && { echo "N/A"; return; }
                 "$bin" -H "$HOSTS_FILE" $mp_arg -- "$COMMAND" >/dev/null 2>&1 || true ;;
             "-t")
-                local bin="$SCRIPT_DIR/sysremote_thread"
+                local bin="$ROOT_DIR/build/native/sysremote_thread"
                 [[ ! -x "$bin" ]] && { echo "N/A"; return; }
                 "$bin" -H "$HOSTS_FILE" $mp_arg -- "$COMMAND" >/dev/null 2>&1 || true ;;
             *)
-                "$SCRIPT_DIR/sysremote_parallel.sh" \
+                "$SCRIPT_DIR/native_parallel.sh" \
                     "$mode_flag" -H "$HOSTS_FILE" $mp_arg \
                     -- "$COMMAND" >/dev/null 2>&1 || true ;;
         esac

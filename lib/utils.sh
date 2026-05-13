@@ -1,4 +1,4 @@
-# * Fonctions utilitaires sans dependance metier.
+# Utility functions without business-specific dependencies.
 
 trim() {
   local value="$1"
@@ -29,4 +29,34 @@ normalize_bool() {
 
 is_positive_int() {
   [[ "$1" =~ ^[0-9]+$ ]] && [ "$1" -gt 0 ]
+}
+
+check_dep() {
+  local dep
+  for dep in "$@"; do
+    command -v "$dep" >/dev/null 2>&1 || die "$EX_DEPENDENCY" "missing dependency: $dep"
+  done
+}
+
+timestamp_tag() {
+  date '+%Y%m%d-%H%M%S'
+}
+
+safe_status_name() {
+  printf '%s' "$1" | sed 's/[^A-Za-z0-9_.-]/_/g'
+}
+
+html_escape() {
+  local value="$1"
+  value="${value//&/&amp;}"
+  value="${value//</&lt;}"
+  value="${value//>/&gt;}"
+  value="${value//\"/&quot;}"
+  printf '%s' "$value"
+}
+
+csv_escape() {
+  local value="$1"
+  value="${value//\"/\"\"}"
+  printf '"%s"' "$value"
 }

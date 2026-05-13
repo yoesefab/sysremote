@@ -1,4 +1,4 @@
-# * Validation des noms, arguments et droits.
+# Validation for hosts, accounts, arguments, and privileges.
 
 validate_ipv4() {
   local host="$1"
@@ -58,22 +58,10 @@ validate_account_name() {
   [[ "$name" != -* ]] || return 1
 }
 
-validate_command_name() {
-  if [ "$RESTORE_DEFAULTS" = "true" ]; then
-    return 0
-  fi
-
-  case "$COMMAND" in
-    validate-hosts|sessions|create-user|user-create|delete-user|user-delete|add-user-group|group-add|remove-user-group|group-remove|lock-user|unlock-user|archive-logs|benchmark)
-      return 0
-      ;;
-    ""|help)
-      die "$EX_MISSING_PARAM" "commande obligatoire manquante"
-      ;;
-    *)
-      die "$EX_USAGE" "commande inconnue: $COMMAND"
-      ;;
-  esac
+validate_safe_label() {
+  local value="$1"
+  [[ "$value" =~ ^[A-Za-z0-9_.-]+$ ]] || return 1
+  [[ "$value" != -* ]] || return 1
 }
 
 require_arg_count() {
@@ -82,30 +70,37 @@ require_arg_count() {
   shift 2
 
   if [ "$#" -ne "$expected" ]; then
-    die "$EX_MISSING_PARAM" "$command_name requiert $expected argument(s)"
+    die "$EX_MISSING_PARAM" "$command_name requires $expected argument(s)"
   fi
 }
 
 require_root_for_sensitive_action() {
   if [ "$REQUIRE_ROOT" = "true" ] && [ "$EUID" -ne 0 ]; then
-    die "$EX_PRIVILEGE" "privileges root locaux requis pour cette action; utiliser sudo ou -N si delegation distante controlee"
+    die "$EX_PRIVILEGE" "local root privileges required; use sudo or -N for controlled remote delegation"
   fi
 }
 
-is_sensitive_command() {
-  case "$1" in
-    create-user|user-create|delete-user|user-delete|add-user-group|group-add|remove-user-group|group-remove|lock-user|unlock-user)
+validate_command_name() {
+  if [ "$RESTORE_DEFAULTS" = "true" ]; then
+    return 0
+  fi
+
+  case "$COMMAND" in
+    validate-hosts|sessions|create-user|user-create|delete-user|user-delete|add-user-group|group-add|remove-user-group|group-remove|lock-user|unlock-user|archive-logs|benchmark|backup|restore|audit|maintain|maintenance|schedule|logs|monitor|metrics)
       return 0
       ;;
+    ""|help)
+      die "$EX_MISSING_PARAM" "missing required command"
+      ;;
     *)
-      return 1
+      die "$EX_USAGE" "unknown command: $COMMAND"
       ;;
   esac
 }
 
 command_requires_targets() {
   case "$1" in
-    validate-hosts|sessions|create-user|user-create|delete-user|user-delete|add-user-group|group-add|remove-user-group|group-remove|lock-user|unlock-user)
+    validate-hosts|sessions|create-user|user-create|delete-user|user-delete|add-user-group|group-add|remove-user-group|group-remove|lock-user|unlock-user|monitor|metrics)
       return 0
       ;;
     *)

@@ -1,23 +1,27 @@
-# Makefile — Lot 3: sysremote modules C
+.PHONY: test audit-tree native native-clean native-check deliverables
 
-CC      = gcc
-CFLAGS  = -Wall -Werror -O2
-LDFLAGS_THREAD = -lpthread
+test:
+	bash tests/smoke.sh
 
-.PHONY: all clean check
+audit-tree:
+	find bin lib modules docs tests assets build backups logs archives reports tools examples -maxdepth 3 -type f | sort
 
-all: sysremote_fork sysremote_thread
-	@echo "Compilation reussie"
+native: build/native/sysremote_fork build/native/sysremote_thread
 
-sysremote_fork: sysremote_fork.c
-	$(CC) $(CFLAGS) -o sysremote_fork sysremote_fork.c
+build/native/sysremote_fork: modules/native/sysremote_fork.c
+	mkdir -p build/native
+	gcc -Wall -Werror -O2 -o build/native/sysremote_fork modules/native/sysremote_fork.c
 
-sysremote_thread: sysremote_thread.c
-	$(CC) $(CFLAGS) -o sysremote_thread sysremote_thread.c $(LDFLAGS_THREAD)
+build/native/sysremote_thread: modules/native/sysremote_thread.c
+	mkdir -p build/native
+	gcc -Wall -Werror -O2 -o build/native/sysremote_thread modules/native/sysremote_thread.c -lpthread
 
-check:
-	bash -n sysremote_parallel.sh && echo "sysremote_parallel.sh OK"
-	bash -n benchmark.sh && echo "benchmark.sh OK"
+native-check:
+	bash -n tools/native_parallel.sh
+	bash -n tools/native_benchmark.sh
 
-clean:
-	rm -f sysremote_fork sysremote_thread
+native-clean:
+	rm -f build/native/sysremote_fork build/native/sysremote_thread
+
+deliverables:
+	python3 tools/make_deliverables.py

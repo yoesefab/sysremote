@@ -11,6 +11,7 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <errno.h>
 #include <getopt.h>
 #include <time.h>
@@ -48,6 +49,21 @@ static long now_ms(void) {
     return ts.tv_sec * 1000L + ts.tv_nsec / 1000000L;
 }
 
+static void safe_name(const char *input, char *output, size_t output_size) {
+    size_t j = 0;
+    if (output_size == 0) return;
+    for (size_t i = 0; input[i] != '\0' && j + 1 < output_size; i++) {
+        char c = input[i];
+        if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ||
+            (c >= '0' && c <= '9') || c == '.' || c == '_' || c == '-') {
+            output[j++] = c;
+        } else {
+            output[j++] = '_';
+        }
+    }
+    output[j] = '\0';
+}
+
 static int load_hosts(Config *cfg, const char *path) {
     FILE *f = fopen(path, "r");
     if (!f) { perror(path); return -1; }
@@ -65,8 +81,10 @@ static int load_hosts(Config *cfg, const char *path) {
 }
 
 static void child_exec(const Config *cfg, const char *host) {
-    char log_path[512];
-    snprintf(log_path, sizeof(log_path), "%s/%s.log", cfg->log_dir, host);
+    char log_path[1024];
+    char safe_host[MAX_LINE];
+    safe_name(host, safe_host, sizeof(safe_host));
+    snprintf(log_path, sizeof(log_path), "%s/%s.log", cfg->log_dir, safe_host);
 
     int log_fd = open(log_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (log_fd < 0) { perror("open log"); _exit(127); }
@@ -219,9 +237,10 @@ int main(int argc, char **argv) {
         fprintf(stderr, "ERREUR: commande requise après --\n"); return 1;
     }
 
-    char mkdir_cmd[512];
-    snprintf(mkdir_cmd, sizeof(mkdir_cmd), "mkdir -p %s", cfg.log_dir);
-    if (system(mkdir_cmd) != 0) fprintf(stderr, "AVERTISSEMENT: mkdir -p échoué\n");
+    if (mkdir(cfg.log_dir, 0755) != 0 && errno != EEXIST) {
+        perror("mkdir log-dir");
+        return 1;
+    }
 
     if (load_hosts(&cfg, hosts_file) < 0) return 1;
     return run_fork(&cfg);

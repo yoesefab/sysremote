@@ -1,94 +1,63 @@
-# * Aide, messages et journalisation.
+# Help, stdout/stderr logging, and shared error handling.
 
 usage() {
   cat <<'USAGE'
-sysremote - administration distante multi-hotes
+sysremote - unified Linux/Bash remote administration toolkit
 
 Synopsis:
-  sysremote [options] commande [arguments]
+  sysremote [global options] command [arguments]
 
-Description:
-  sysremote fournit une CLI Bash commune pour charger une configuration,
-  valider un inventaire de machines, executer des commandes SSH avec timeout
-  et gerer les utilisateurs/groupes sur des hotes distants.
+Global options:
+  -h, --help              Show this help.
+  --version               Show version.
+  -c, --config FILE       Load a config file.
+  -i, --inventory FILE    Load target inventory, one host per line.
+  -m, --hosts HOSTS       Comma-separated targets.
+  -l, --log-dir DIR       Log directory. history.log is created inside it.
+  -U, --user LOGIN        SSH login.
+  -p, --port PORT         SSH port.
+  -T, --timeout SECONDS   SSH connection timeout.
+  -f, --fork              Fork mode for multi-target execution.
+  -t, --thread            Thread-pool mode via xargs -P.
+  -s, --subshell          Subshell mode.
+  -j, --jobs N            Worker count for thread mode.
+  -r, --restore-defaults  Install default config/log paths (root only).
+  -N, --no-root-check     Skip local EUID check for sensitive remote actions.
+  -n, --dry-run           Print intended actions without remote changes.
+  -v, --verbose           Print extra diagnostic messages.
 
-Options:
-  -h              Affiche cette aide.
-  -c FICHIER      Charge un fichier de configuration precis.
-  -i FICHIER      Charge un inventaire de cibles, une cible par ligne.
-  -m HOTES        Cibles separees par des virgules (ex: srv1,10.0.0.5).
-  -l DOSSIER      Dossier de logs (defaut: /var/log/sysremote).
-  -U LOGIN        Login SSH distant.
-  -p PORT         Port SSH distant.
-  -T SECONDES     Timeout de connexion SSH (defaut: 5).
-  -f              Mode fork: execute les hotes en processus enfants concurrents.
-  -t              Mode thread: execute les hotes via un pool xargs -P.
-  -s              Mode subshell: execute le traitement dans un sous-shell.
-  -j N            Nombre de workers pour le mode thread (defaut: 4).
-  -r              Restaure les reglages par defaut (root uniquement).
-  -N              Desactive le controle EUID/root local pour actions sensibles.
-  -n              Dry-run: affiche les commandes sans se connecter.
-  -v              Mode verbeux.
-
-Commandes:
+Remote administration:
   validate-hosts
-      Valide les cibles configurees sans ouvrir de connexion SSH.
-
   sessions [who|w]
-      Affiche les sessions actives via who ou w.
+  create-user USER
+  delete-user USER
+  add-user-group USER GROUP
+  remove-user-group USER GROUP
+  lock-user USER
+  unlock-user USER
 
-  create-user UTILISATEUR
-      Cree un compte distant avec repertoire home.
+Backup, restore, audit, maintenance:
+  backup -S DIR [-D DIR] [--compress] [--encrypt] [--remote TARGET] [--tag NAME]
+  restore -A ARCHIVE [-T DIR]
+  audit [--perms] [--logins] [--ports] [--all]
+  maintain [--update] [--clean]
+  schedule --add "M H DOM MON DOW" "COMMAND"
+  schedule --list
+  schedule --remove
+  logs [-n LINES]
 
-  delete-user UTILISATEUR
-      Supprime un compte distant et son repertoire home.
+Monitoring and reports:
+  monitor [--check] [--alert N] [--csv] [--html] [--notify] [--interactive]
+  metrics
 
-  add-user-group UTILISATEUR GROUPE
-      Ajoute un utilisateur a un groupe.
-
-  remove-user-group UTILISATEUR GROUPE
-      Retire un utilisateur d'un groupe.
-
-  lock-user UTILISATEUR
-      Verrouille un compte distant.
-
-  unlock-user UTILISATEUR
-      Deverrouille un compte distant.
-
-  archive-logs [DOSSIER]
-      Archive et compresse les logs sysremote dans DOSSIER ou ./archives.
-
+Other:
+  archive-logs [DIR]
   benchmark [light|medium|heavy]
-      Compare les modes normal, fork, thread et subshell sur une charge locale.
 
-Codes de retour:
-  0   Succes.
-  2   Usage invalide ou option inconnue.
-  3   Configuration invalide.
-  4   Nom d'hote/IP refuse par validation.
-  10  Privileges locaux insuffisants pour une action sensible.
-  20  Erreur SSH ou hote injoignable.
-  21  Commande distante en echec.
-  30  Aucune cible exploitable.
-  100 Option invalide.
-  101 Parametre obligatoire manquant.
-
-Exemples:
-  sysremote -m srv-app-01 validate-hosts
-  sysremote -l /tmp/sysremote-logs -m srv-app-01 validate-hosts
-  sysremote -f -n -m srv-app-01,srv-db-01 sessions who
-  sysremote -t -j 2 -n -m srv-app-01,srv-db-01 sessions who
-  sysremote -s -m srv-app-01 validate-hosts
-  sudo sysremote -r
-  sudo sysremote -c ./sysremote.conf -i ./inventory.example create-user alice
-  sudo sysremote -m srv-app-01,srv-db-01 add-user-group alice wheel
-  sysremote -i ./inventory.example sessions w
-  sysremote -l /tmp/sysremote-logs archive-logs ./archives
-  sysremote -l /tmp/sysremote-logs benchmark light
-
-Notes:
-  Les cibles sont des noms DNS ou IPv4 uniquement. Le login SSH se configure
-  avec -U ou SSH_USER dans sysremote.conf, jamais dans le nom d'hote.
+Exit codes:
+  0 success; 2 usage; 3 config; 4 host validation; 10 privileges;
+  20 SSH; 21 remote command; 30 no targets; 100 invalid option;
+  101 missing parameter; 109 dependency; 110 invalid parameter; 111 cron.
 USAGE
 }
 
@@ -96,6 +65,10 @@ log_info() {
   if [ "$VERBOSE" = "true" ]; then
     printf 'sysremote: %s\n' "$*" >&2
   fi
+}
+
+log_warn() {
+  printf 'sysremote: warning: %s\n' "$*" >&2
 }
 
 log_error() {
@@ -111,15 +84,11 @@ log_line_direct() {
 }
 
 emit_help() {
-  local line
-
+  usage
   if [ "$LOGGING_READY" = "true" ]; then
-    usage >&3
     while IFS= read -r line; do
       log_line_direct "INFOS" "$line"
     done <<< "$(usage)"
-  else
-    usage
   fi
 }
 
@@ -129,16 +98,13 @@ die() {
   shift
   message="$*"
 
+  printf 'sysremote: %s\n\n' "$message" >&2
+  log_line_direct "ERROR" "sysremote: $message"
+  usage >&2
   if [ "$LOGGING_READY" = "true" ]; then
-    printf 'sysremote: %s\n' "$message" >&4
-    log_line_direct "ERROR" "sysremote: $message"
-    usage >&4
     while IFS= read -r line; do
       log_line_direct "ERROR" "$line"
     done <<< "$(usage)"
-  else
-    printf 'sysremote: %s\n' "$message" >&2
-    usage >&2
   fi
   exit "$code"
 }
@@ -149,7 +115,7 @@ preparse_log_dir() {
   while [ "$#" -gt 0 ]; do
     arg="$1"
     case "$arg" in
-      -l)
+      -l|--log-dir)
         next="${2:-}"
         if [ -n "$next" ]; then
           CLI_LOG_DIR="$next"
@@ -158,26 +124,11 @@ preparse_log_dir() {
         else
           shift
         fi
-        ;;
-      -l?*)
-        CLI_LOG_DIR="${arg#-l}"
-        LOG_DIR="$CLI_LOG_DIR"
-        shift
         ;;
       --log-dir=*)
         CLI_LOG_DIR="${arg#--log-dir=}"
         LOG_DIR="$CLI_LOG_DIR"
         shift
-        ;;
-      --log-dir)
-        next="${2:-}"
-        if [ -n "$next" ]; then
-          CLI_LOG_DIR="$next"
-          LOG_DIR="$next"
-          shift 2
-        else
-          shift
-        fi
         ;;
       --)
         break
@@ -191,7 +142,7 @@ preparse_log_dir() {
 
 finish_logging() {
   if [ "$LOGGING_READY" = "true" ]; then
-    sleep 0.1
+    sleep 0.05
     exec 1>&3 2>&4
     exec 3>&- 4>&-
   fi
@@ -203,8 +154,7 @@ setup_logging() {
   LOG_FILE="${LOG_DIR%/}/history.log"
   until mkdir -p "$LOG_DIR" 2>/dev/null; do
     if [ "$attempt" -ge 3 ]; then
-      printf 'sysremote: impossible de creer le dossier de logs: %s\n' "$LOG_DIR" >&2
-      printf 'sysremote: continuer sans journal fichier; utiliser -l DOSSIER ou sudo pour /var/log/sysremote.\n' >&2
+      printf 'sysremote: cannot create log directory: %s\n' "$LOG_DIR" >&2
       LOGGING_READY="false"
       return 0
     fi
@@ -213,7 +163,7 @@ setup_logging() {
   done
 
   if ! touch "$LOG_FILE" 2>/dev/null; then
-    printf "sysremote: impossible d'ecrire le log: %s\n" "$LOG_FILE" >&2
+    printf 'sysremote: cannot write log file: %s\n' "$LOG_FILE" >&2
     LOGGING_READY="false"
     return 0
   fi

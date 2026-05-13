@@ -1,6 +1,7 @@
-# * Valeurs globales et codes de retour sysremote.
+# Global defaults and shared exit codes.
 
-readonly SYSREMOTE_VERSION="0.1.0"
+readonly SYSREMOTE_VERSION="1.0.0"
+readonly PROGRAM_NAME="sysremote"
 
 readonly EX_OK=0
 readonly EX_USAGE=2
@@ -12,6 +13,9 @@ readonly EX_REMOTE=21
 readonly EX_NO_TARGETS=30
 readonly EX_INVALID_OPTION=100
 readonly EX_MISSING_PARAM=101
+readonly EX_DEPENDENCY=109
+readonly EX_INVALID_PARAM=110
+readonly EX_CRON=111
 
 SSH_USER="${USER:-root}"
 SSH_PORT="22"
@@ -23,12 +27,29 @@ DEFAULT_SESSION_COMMAND="who"
 CONFIG_FILE=""
 VERBOSE="false"
 DRY_RUN="false"
-LOG_DIR="/var/log/sysremote"
+LOG_DIR="${SYSREMOTE_ROOT_DIR:-.}/logs"
 LOG_FILE=""
 LOGGING_READY="false"
 EXEC_MODE="normal"
 THREAD_JOBS="4"
 RESTORE_DEFAULTS="false"
+
+DEFAULT_BACKUP_DIR="${SYSREMOTE_ROOT_DIR:-.}/backups"
+DEFAULT_RESTORE_DIR="${SYSREMOTE_ROOT_DIR:-.}/restore"
+ARCHIVE_DIR="${SYSREMOTE_ROOT_DIR:-.}/archives"
+REPORT_DIR="${SYSREMOTE_ROOT_DIR:-.}/reports"
+CRON_TAG="sysremote-managed"
+
+SEUIL_ALERTE="80"
+GENERER_HTML="true"
+NOTIF_DISCORD="false"
+DISCORD_WEBHOOK=""
+NOTIF_EMAIL="false"
+EMAIL_DESTINATAIRE=""
+MONITOR_INTERACTIVE="false"
+
+SENSITIVE_FILES=("/etc/passwd" "/etc/shadow" "/etc/sudoers" "/etc/ssh/sshd_config")
+KNOWN_PORTS=(22 80 443 3306 5432 6379 8080 8443)
 
 CLI_CONFIG_FILE=""
 CLI_CONFIG_EXPLICIT="false"

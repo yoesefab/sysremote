@@ -1,4 +1,4 @@
-# * Execution distante et strategies multi-hotes.
+# Remote command execution and concurrency strategies.
 
 remote_quote() {
   printf '%q' "$1"
@@ -32,20 +32,16 @@ ssh_exec() {
   status=$?
 
   if [ "$status" -eq 255 ]; then
-    log_error "erreur SSH vers $host"
+    log_error "SSH error to $host"
     return "$EX_SSH"
   fi
 
   if [ "$status" -ne 0 ]; then
-    log_error "commande distante en echec sur $host (code $status)"
+    log_error "remote command failed on $host (code $status)"
     return "$EX_REMOTE"
   fi
 
   return "$EX_OK"
-}
-
-safe_status_name() {
-  printf '%s' "$1" | sed 's/[^A-Za-z0-9_.-]/_/g'
 }
 
 collect_statuses() {
@@ -87,7 +83,7 @@ run_on_targets_normal() {
 run_on_targets_fork() {
   local remote_command="$1"
   local host status_dir result
-  status_dir="$(mktemp -d "${TMPDIR:-/tmp}/sysremote-fork.XXXXXX")" || die "$EX_CONFIG" "creation repertoire temporaire impossible"
+  status_dir="$(mktemp -d "${TMPDIR:-/tmp}/sysremote-fork.XXXXXX")" || die "$EX_CONFIG" "cannot create temporary directory"
 
   for host in "${TARGET_HOSTS[@]}"; do
     (
@@ -106,7 +102,7 @@ run_on_targets_fork() {
 run_on_targets_thread() {
   local remote_command="$1"
   local status_dir result
-  status_dir="$(mktemp -d "${TMPDIR:-/tmp}/sysremote-thread.XXXXXX")" || die "$EX_CONFIG" "creation repertoire temporaire impossible"
+  status_dir="$(mktemp -d "${TMPDIR:-/tmp}/sysremote-thread.XXXXXX")" || die "$EX_CONFIG" "cannot create temporary directory"
 
   export SSH_USER SSH_PORT SSH_TIMEOUT DRY_RUN EX_OK EX_SSH EX_REMOTE STATUS_DIR="$status_dir" REMOTE_COMMAND="$remote_command"
   export -f log_error ssh_exec safe_status_name
@@ -133,6 +129,6 @@ run_on_targets() {
     fork) run_on_targets_fork "$remote_command" ;;
     thread) run_on_targets_thread "$remote_command" ;;
     subshell) ( EXEC_MODE="normal"; run_on_targets "$remote_command" ) ;;
-    *) die "$EX_CONFIG" "mode execution invalide: $EXEC_MODE" ;;
+    *) die "$EX_CONFIG" "invalid execution mode: $EXEC_MODE" ;;
   esac
 }

@@ -1,105 +1,133 @@
-# * Parsing CLI, dispatch et cycle principal.
+# CLI parsing and application lifecycle.
 
 parse_cli() {
-  local opt
+  COMMAND=""
+  COMMAND_ARGS=()
 
-  OPTIND=1
-  while getopts ":hc:i:m:l:U:p:T:ftsj:rNnv" opt; do
-    case "$opt" in
-      h)
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      -h|--help)
         emit_help
         exit "$EX_OK"
         ;;
-      c)
-        CLI_CONFIG_FILE="$OPTARG"
+      --version)
+        printf 'sysremote v%s\n' "$SYSREMOTE_VERSION"
+        exit "$EX_OK"
+        ;;
+      -c|--config)
+        CLI_CONFIG_FILE="${2:-}"
+        [ -n "$CLI_CONFIG_FILE" ] || die "$EX_MISSING_PARAM" "$1 requires a value"
         CLI_CONFIG_EXPLICIT="true"
+        shift 2
         ;;
-      i) CLI_INVENTORY_FILE="$OPTARG" ;;
-      m) CLI_MULTI_HOSTS="$OPTARG" ;;
-      l)
-        CLI_LOG_DIR="$OPTARG"
-        LOG_DIR="$OPTARG"
+      --config=*)
+        CLI_CONFIG_FILE="${1#--config=}"
+        CLI_CONFIG_EXPLICIT="true"
+        shift
         ;;
-      U) CLI_SSH_USER="$OPTARG" ;;
-      p) CLI_SSH_PORT="$OPTARG" ;;
-      T) CLI_SSH_TIMEOUT="$OPTARG" ;;
-      f) EXEC_MODE="fork" ;;
-      t) EXEC_MODE="thread" ;;
-      s) EXEC_MODE="subshell" ;;
-      j) THREAD_JOBS="$OPTARG" ;;
-      r) RESTORE_DEFAULTS="true" ;;
-      N) CLI_NO_ROOT_CHECK="true" ;;
-      n) DRY_RUN="true" ;;
-      v) VERBOSE="true" ;;
-      :)
-        die "$EX_MISSING_PARAM" "option -$OPTARG requiert une valeur"
+      -i|--inventory)
+        CLI_INVENTORY_FILE="${2:-}"
+        [ -n "$CLI_INVENTORY_FILE" ] || die "$EX_MISSING_PARAM" "$1 requires a value"
+        shift 2
         ;;
-      \?)
-        die "$EX_INVALID_OPTION" "option invalide: -$OPTARG"
+      --inventory=*)
+        CLI_INVENTORY_FILE="${1#--inventory=}"
+        shift
+        ;;
+      -m|--hosts)
+        CLI_MULTI_HOSTS="${2:-}"
+        [ -n "$CLI_MULTI_HOSTS" ] || die "$EX_MISSING_PARAM" "$1 requires a value"
+        shift 2
+        ;;
+      --hosts=*)
+        CLI_MULTI_HOSTS="${1#--hosts=}"
+        shift
+        ;;
+      -l|--log-dir)
+        CLI_LOG_DIR="${2:-}"
+        [ -n "$CLI_LOG_DIR" ] || die "$EX_MISSING_PARAM" "$1 requires a value"
+        LOG_DIR="$CLI_LOG_DIR"
+        shift 2
+        ;;
+      --log-dir=*)
+        CLI_LOG_DIR="${1#--log-dir=}"
+        LOG_DIR="$CLI_LOG_DIR"
+        shift
+        ;;
+      -U|--user)
+        CLI_SSH_USER="${2:-}"
+        [ -n "$CLI_SSH_USER" ] || die "$EX_MISSING_PARAM" "$1 requires a value"
+        shift 2
+        ;;
+      --user=*)
+        CLI_SSH_USER="${1#--user=}"
+        shift
+        ;;
+      -p|--port)
+        CLI_SSH_PORT="${2:-}"
+        [ -n "$CLI_SSH_PORT" ] || die "$EX_MISSING_PARAM" "$1 requires a value"
+        shift 2
+        ;;
+      --port=*)
+        CLI_SSH_PORT="${1#--port=}"
+        shift
+        ;;
+      -T|--timeout)
+        CLI_SSH_TIMEOUT="${2:-}"
+        [ -n "$CLI_SSH_TIMEOUT" ] || die "$EX_MISSING_PARAM" "$1 requires a value"
+        shift 2
+        ;;
+      --timeout=*)
+        CLI_SSH_TIMEOUT="${1#--timeout=}"
+        shift
+        ;;
+      -f|--fork) EXEC_MODE="fork"; shift ;;
+      -t|--thread) EXEC_MODE="thread"; shift ;;
+      -s|--subshell) EXEC_MODE="subshell"; shift ;;
+      -j|--jobs)
+        THREAD_JOBS="${2:-}"
+        [ -n "$THREAD_JOBS" ] || die "$EX_MISSING_PARAM" "$1 requires a value"
+        shift 2
+        ;;
+      --jobs=*)
+        THREAD_JOBS="${1#--jobs=}"
+        shift
+        ;;
+      -r|--restore-defaults) RESTORE_DEFAULTS="true"; shift ;;
+      -N|--no-root-check) CLI_NO_ROOT_CHECK="true"; shift ;;
+      -n|--dry-run) DRY_RUN="true"; shift ;;
+      -v|--verbose) VERBOSE="true"; shift ;;
+      --)
+        shift
+        break
+        ;;
+      -*)
+        die "$EX_INVALID_OPTION" "invalid global option: $1"
+        ;;
+      *)
+        COMMAND="$1"
+        shift
+        COMMAND_ARGS=("$@")
+        return 0
         ;;
     esac
   done
 
-  shift $((OPTIND - 1))
-  COMMAND="${1:-}"
-  if [ -n "$COMMAND" ]; then
+  if [ -z "$COMMAND" ] && [ "$#" -gt 0 ]; then
+    COMMAND="$1"
     shift
     COMMAND_ARGS=("$@")
-  else
-    COMMAND_ARGS=()
   fi
-}
-
-dispatch() {
-  case "$COMMAND" in
-    validate-hosts)
-      cmd_validate_hosts
-      ;;
-    sessions)
-      cmd_sessions "${COMMAND_ARGS[@]}"
-      ;;
-    create-user|user-create)
-      cmd_create_user "${COMMAND_ARGS[@]}"
-      ;;
-    delete-user|user-delete)
-      cmd_delete_user "${COMMAND_ARGS[@]}"
-      ;;
-    add-user-group|group-add)
-      cmd_add_user_group "${COMMAND_ARGS[@]}"
-      ;;
-    remove-user-group|group-remove)
-      cmd_remove_user_group "${COMMAND_ARGS[@]}"
-      ;;
-    lock-user)
-      cmd_lock_user "${COMMAND_ARGS[@]}"
-      ;;
-    unlock-user)
-      cmd_unlock_user "${COMMAND_ARGS[@]}"
-      ;;
-    archive-logs)
-      cmd_archive_logs "${COMMAND_ARGS[@]}"
-      ;;
-    benchmark)
-      cmd_benchmark "${COMMAND_ARGS[@]}"
-      ;;
-    ""|help)
-      die "$EX_MISSING_PARAM" "commande obligatoire manquante"
-      ;;
-    *)
-      die "$EX_USAGE" "commande inconnue: $COMMAND"
-      ;;
-  esac
 }
 
 main() {
   local status
 
-  preparse_log_dir "$@"
-  setup_logging
   parse_cli "$@"
   resolve_default_config
   load_config "$CONFIG_FILE" "$CLI_CONFIG_EXPLICIT"
   apply_cli_overrides
+  setup_logging
   validate_runtime_config
   validate_command_name
   status=$?

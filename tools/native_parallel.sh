@@ -21,6 +21,14 @@ COMMAND=""
 BENCHMARK=false
 VERBOSE=false
 LOG_DIR="/tmp/sysremote_logs_$$"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+cleanup_log_dir() {
+    case "$LOG_DIR" in
+        /tmp/sysremote_logs_*) rm -rf "$LOG_DIR" ;;
+    esac
+}
 
 # --------------------------------------------------------------------------- #
 # Aide
@@ -223,8 +231,8 @@ mode_subshell() {
 mode_fork() {
     local action="${1:-cmd}"
     local bin
-    bin="$(dirname "$0")/sysremote_fork"
-    [[ ! -x "$bin" ]] && { echo "ERREUR: '$bin' introuvable. Compilez d'abord." >&2; exit 1; }
+    bin="$ROOT_DIR/build/native/sysremote_fork"
+    [[ ! -x "$bin" ]] && { echo "ERREUR: '$bin' introuvable. Lancez: make native" >&2; exit 1; }
 
     local t_start; t_start=$(date +%s%N)
     local args=(-H "$TARGETS_FILE" -u "$SSH_USER" -p "$SSH_PORT" -T "$TIMEOUT" -L "$LOG_DIR")
@@ -248,8 +256,8 @@ mode_fork() {
 mode_thread() {
     local action="${1:-cmd}"
     local bin
-    bin="$(dirname "$0")/sysremote_thread"
-    [[ ! -x "$bin" ]] && { echo "ERREUR: '$bin' introuvable. Compilez d'abord." >&2; exit 1; }
+    bin="$ROOT_DIR/build/native/sysremote_thread"
+    [[ ! -x "$bin" ]] && { echo "ERREUR: '$bin' introuvable. Lancez: make native" >&2; exit 1; }
 
     local t_start; t_start=$(date +%s%N)
     local args=(-H "$TARGETS_FILE" -u "$SSH_USER" -p "$SSH_PORT" -T "$TIMEOUT" -L "$LOG_DIR")
@@ -284,14 +292,14 @@ run_benchmark() {
     echo "--- Mode subshell ---"
     results[subshell]=$(mode_subshell cmd | tail -1)
 
-    if [[ -x "$(dirname "$0")/sysremote_fork" ]]; then
+    if [[ -x "$ROOT_DIR/build/native/sysremote_fork" ]]; then
         echo "--- Mode fork ---"
         results[fork]=$(mode_fork cmd | tail -1)
     else
         results[fork]="N/A (non compilé)"
     fi
 
-    if [[ -x "$(dirname "$0")/sysremote_thread" ]]; then
+    if [[ -x "$ROOT_DIR/build/native/sysremote_thread" ]]; then
         echo "--- Mode thread ---"
         results[thread]=$(mode_thread cmd | tail -1)
     else
@@ -319,7 +327,7 @@ main() {
     [[ "$BENCHMARK" == false ]] && validate
 
     mkdir -p "$LOG_DIR"
-    trap 'rm -rf "$LOG_DIR"' EXIT
+    trap cleanup_log_dir EXIT
 
     local action="cmd"
     [[ -n "$SCP_SRC" ]] && action="scp"

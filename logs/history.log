@@ -1,0 +1,345 @@
+2026-05-13-12-13-55 : youssef : ERROR : sysremote: missing required command
+2026-05-13-12-13-55 : youssef : ERROR : sysremote: missing required command
+2026-05-13-12-13-55 : youssef : ERROR : 
+2026-05-13-12-13-55 : youssef : ERROR : sysremote - unified Linux/Bash remote administration toolkit
+2026-05-13-12-13-55 : youssef : ERROR : sysremote - unified Linux/Bash remote administration toolkit
+2026-05-13-12-13-55 : youssef : ERROR : 
+2026-05-13-12-13-55 : youssef : ERROR : Synopsis:
+2026-05-13-12-13-55 : youssef : ERROR : 
+2026-05-13-12-13-55 : youssef : ERROR :   sysremote [global options] command [arguments]
+2026-05-13-12-13-55 : youssef : ERROR : Synopsis:
+2026-05-13-12-13-55 : youssef : ERROR : 
+2026-05-13-12-13-55 : youssef : ERROR :   sysremote [global options] command [arguments]
+2026-05-13-12-13-55 : youssef : ERROR : Global options:
+2026-05-13-12-13-55 : youssef : ERROR : 
+2026-05-13-12-13-55 : youssef : ERROR : Global options:
+2026-05-13-12-13-55 : youssef : ERROR :   -h, --help              Show this help.
+2026-05-13-12-13-55 : youssef : ERROR :   -h, --help              Show this help.
+2026-05-13-12-13-55 : youssef : ERROR :   --version               Show version.
+2026-05-13-12-13-55 : youssef : ERROR :   -c, --config FILE       Load a config file.
+2026-05-13-12-13-55 : youssef : ERROR :   --version               Show version.
+2026-05-13-12-13-55 : youssef : ERROR :   -i, --inventory FILE    Load target inventory, one host per line.
+2026-05-13-12-13-55 : youssef : ERROR :   -c, --config FILE       Load a config file.
+2026-05-13-12-13-55 : youssef : ERROR :   -i, --inventory FILE    Load target inventory, one host per line.
+2026-05-13-12-13-55 : youssef : ERROR :   -m, --hosts HOSTS       Comma-separated targets.
+2026-05-13-12-13-55 : youssef : ERROR :   -l, --log-dir DIR       Log directory. history.log is created inside it.
+2026-05-13-12-13-55 : youssef : ERROR :   -m, --hosts HOSTS       Comma-separated targets.
+2026-05-13-12-13-55 : youssef : ERROR :   -U, --user LOGIN        SSH login.
+2026-05-13-12-13-55 : youssef : ERROR :   -l, --log-dir DIR       Log directory. history.log is created inside it.
+2026-05-13-12-13-55 : youssef : ERROR :   -p, --port PORT         SSH port.
+2026-05-13-12-13-55 : youssef : ERROR :   -U, --user LOGIN        SSH login.
+2026-05-13-12-13-55 : youssef : ERROR :   -T, --timeout SECONDS   SSH connection timeout.
+2026-05-13-12-13-55 : youssef : ERROR :   -p, --port PORT         SSH port.
+2026-05-13-12-13-55 : youssef : ERROR :   -f, --fork              Fork mode for multi-target execution.
+2026-05-13-12-13-55 : youssef : ERROR :   -T, --timeout SECONDS   SSH connection timeout.
+2026-05-13-12-13-55 : youssef : ERROR :   -t, --thread            Thread-pool mode via xargs -P.
+2026-05-13-12-13-55 : youssef : ERROR :   -f, --fork              Fork mode for multi-target execution.
+2026-05-13-12-13-55 : youssef : ERROR :   -s, --subshell          Subshell mode.
+2026-05-13-12-13-55 : youssef : ERROR :   -t, --thread            Thread-pool mode via xargs -P.
+2026-05-13-12-13-55 : youssef : ERROR :   -j, --jobs N            Worker count for thread mode.
+2026-05-13-12-13-55 : youssef : ERROR :   -s, --subshell          Subshell mode.
+2026-05-13-12-13-55 : youssef : ERROR :   -r, --restore-defaults  Install default config/log paths (root only).
+2026-05-13-12-13-55 : youssef : ERROR :   -j, --jobs N            Worker count for thread mode.
+2026-05-13-12-13-55 : youssef : ERROR :   -N, --no-root-check     Skip local EUID check for sensitive remote actions.
+2026-05-13-12-13-55 : youssef : ERROR :   -r, --restore-defaults  Install default config/log paths (root only).
+2026-05-13-12-13-56 : youssef : ERROR :   -n, --dry-run           Print intended actions without remote changes.
+2026-05-13-12-13-56 : youssef : ERROR :   -N, --no-root-check     Skip local EUID check for sensitive remote actions.
+2026-05-13-12-13-56 : youssef : ERROR :   -v, --verbose           Print extra diagnostic messages.
+2026-05-13-12-13-56 : youssef : ERROR :   -n, --dry-run           Print intended actions without remote changes.
+2026-05-13-12-13-56 : youssef : ERROR : 
+2026-05-13-12-13-56 : youssef : ERROR :   -v, --verbose           Print extra diagnostic messages.
+2026-05-13-12-13-56 : youssef : ERROR : Remote administration:
+2026-05-13-12-13-56 : youssef : ERROR : 
+2026-05-13-12-13-56 : youssef : ERROR :   validate-hosts
+2026-05-13-12-13-56 : youssef : ERROR : Remote administration:
+2026-05-13-12-13-56 : youssef : ERROR :   sessions [who|w]
+2026-05-13-12-13-56 : youssef : ERROR :   create-user USER
+2026-05-13-12-13-56 : youssef : ERROR :   validate-hosts
+2026-05-13-12-13-56 : youssef : ERROR :   delete-user USER
+2026-05-13-12-13-56 : youssef : ERROR :   sessions [who|w]
+2026-05-13-12-13-56 : youssef : ERROR :   create-user USER
+2026-05-13-12-13-56 : youssef : ERROR :   add-user-group USER GROUP
+2026-05-13-12-13-56 : youssef : ERROR :   delete-user USER
+2026-05-13-12-13-56 : youssef : ERROR :   remove-user-group USER GROUP
+2026-05-13-12-13-56 : youssef : ERROR :   add-user-group USER GROUP
+2026-05-13-12-13-56 : youssef : ERROR :   lock-user USER
+2026-05-13-12-13-56 : youssef : ERROR :   unlock-user USER
+2026-05-13-12-13-56 : youssef : ERROR :   remove-user-group USER GROUP
+2026-05-13-12-13-56 : youssef : ERROR :   lock-user USER
+2026-05-13-12-13-56 : youssef : ERROR : 
+2026-05-13-12-13-56 : youssef : ERROR : Backup, restore, audit, maintenance:
+2026-05-13-12-13-56 : youssef : ERROR :   unlock-user USER
+2026-05-13-12-13-56 : youssef : ERROR :   backup -S DIR [-D DIR] [--compress] [--encrypt] [--remote TARGET] [--tag NAME]
+2026-05-13-12-13-56 : youssef : ERROR : 
+2026-05-13-12-13-56 : youssef : ERROR :   restore -A ARCHIVE [-T DIR]
+2026-05-13-12-13-56 : youssef : ERROR : Backup, restore, audit, maintenance:
+2026-05-13-12-13-56 : youssef : ERROR :   backup -S DIR [-D DIR] [--compress] [--encrypt] [--remote TARGET] [--tag NAME]
+2026-05-13-12-13-56 : youssef : ERROR :   audit [--perms] [--logins] [--ports] [--all]
+2026-05-13-12-13-56 : youssef : ERROR :   maintain [--update] [--clean]
+2026-05-13-12-13-56 : youssef : ERROR :   restore -A ARCHIVE [-T DIR]
+2026-05-13-12-13-56 : youssef : ERROR :   audit [--perms] [--logins] [--ports] [--all]
+2026-05-13-12-13-56 : youssef : ERROR :   schedule --add "M H DOM MON DOW" "COMMAND"
+2026-05-13-12-13-56 : youssef : ERROR :   schedule --list
+2026-05-13-12-13-56 : youssef : ERROR :   maintain [--update] [--clean]
+2026-05-13-12-13-56 : youssef : ERROR :   schedule --remove
+2026-05-13-12-13-56 : youssef : ERROR :   schedule --add "M H DOM MON DOW" "COMMAND"
+2026-05-13-12-13-56 : youssef : ERROR :   logs [-n LINES]
+2026-05-13-12-13-56 : youssef : ERROR :   schedule --list
+2026-05-13-12-13-56 : youssef : ERROR :   schedule --remove
+2026-05-13-12-13-56 : youssef : ERROR : 
+2026-05-13-12-13-56 : youssef : ERROR : Monitoring and reports:
+2026-05-13-12-13-56 : youssef : ERROR :   logs [-n LINES]
+2026-05-13-12-13-56 : youssef : ERROR :   monitor [--check] [--alert N] [--csv] [--html] [--notify] [--interactive]
+2026-05-13-12-13-56 : youssef : ERROR : 
+2026-05-13-12-13-56 : youssef : ERROR : Monitoring and reports:
+2026-05-13-12-13-56 : youssef : ERROR :   metrics
+2026-05-13-12-13-56 : youssef : ERROR :   monitor [--check] [--alert N] [--csv] [--html] [--notify] [--interactive]
+2026-05-13-12-13-56 : youssef : ERROR : 
+2026-05-13-12-13-56 : youssef : ERROR :   metrics
+2026-05-13-12-13-56 : youssef : ERROR : Other:
+2026-05-13-12-13-56 : youssef : ERROR :   archive-logs [DIR]
+2026-05-13-12-13-56 : youssef : ERROR : 
+2026-05-13-12-13-56 : youssef : ERROR :   benchmark [light|medium|heavy]
+2026-05-13-12-13-56 : youssef : ERROR : Other:
+2026-05-13-12-13-56 : youssef : ERROR :   archive-logs [DIR]
+2026-05-13-12-13-56 : youssef : ERROR : 
+2026-05-13-12-13-56 : youssef : ERROR : Exit codes:
+2026-05-13-12-13-56 : youssef : ERROR :   benchmark [light|medium|heavy]
+2026-05-13-12-13-56 : youssef : ERROR : 
+2026-05-13-12-13-56 : youssef : ERROR :   0 success; 2 usage; 3 config; 4 host validation; 10 privileges;
+2026-05-13-12-13-56 : youssef : ERROR :   20 SSH; 21 remote command; 30 no targets; 100 invalid option;
+2026-05-13-12-13-56 : youssef : ERROR : Exit codes:
+2026-05-13-12-13-56 : youssef : ERROR :   0 success; 2 usage; 3 config; 4 host validation; 10 privileges;
+2026-05-13-12-13-56 : youssef : ERROR :   101 missing parameter; 109 dependency; 110 invalid parameter; 111 cron.
+2026-05-13-12-13-56 : youssef : ERROR :   20 SSH; 21 remote command; 30 no targets; 100 invalid option;
+2026-05-13-12-13-56 : youssef : ERROR :   101 missing parameter; 109 dependency; 110 invalid parameter; 111 cron.
+2026-05-13-12-16-16 : youssef : ERROR : sysremote: no targets; use -m or -i/INVENTORY_FILE
+2026-05-13-12-16-16 : youssef : ERROR : sysremote: no targets; use -m or -i/INVENTORY_FILE
+2026-05-13-12-16-16 : youssef : ERROR : 
+2026-05-13-12-16-16 : youssef : ERROR : sysremote - unified Linux/Bash remote administration toolkit
+2026-05-13-12-16-16 : youssef : ERROR : 
+2026-05-13-12-16-16 : youssef : ERROR : sysremote - unified Linux/Bash remote administration toolkit
+2026-05-13-12-16-16 : youssef : ERROR : Synopsis:
+2026-05-13-12-16-16 : youssef : ERROR : 
+2026-05-13-12-16-16 : youssef : ERROR :   sysremote [global options] command [arguments]
+2026-05-13-12-16-16 : youssef : ERROR : Synopsis:
+2026-05-13-12-16-16 : youssef : ERROR : 
+2026-05-13-12-16-16 : youssef : ERROR :   sysremote [global options] command [arguments]
+2026-05-13-12-16-16 : youssef : ERROR : Global options:
+2026-05-13-12-16-16 : youssef : ERROR : 
+2026-05-13-12-16-16 : youssef : ERROR : Global options:
+2026-05-13-12-16-16 : youssef : ERROR :   -h, --help              Show this help.
+2026-05-13-12-16-16 : youssef : ERROR :   --version               Show version.
+2026-05-13-12-16-16 : youssef : ERROR :   -h, --help              Show this help.
+2026-05-13-12-16-16 : youssef : ERROR :   -c, --config FILE       Load a config file.
+2026-05-13-12-16-16 : youssef : ERROR :   --version               Show version.
+2026-05-13-12-16-16 : youssef : ERROR :   -i, --inventory FILE    Load target inventory, one host per line.
+2026-05-13-12-16-16 : youssef : ERROR :   -c, --config FILE       Load a config file.
+2026-05-13-12-16-16 : youssef : ERROR :   -m, --hosts HOSTS       Comma-separated targets.
+2026-05-13-12-16-16 : youssef : ERROR :   -i, --inventory FILE    Load target inventory, one host per line.
+2026-05-13-12-16-16 : youssef : ERROR :   -l, --log-dir DIR       Log directory. history.log is created inside it.
+2026-05-13-12-16-16 : youssef : ERROR :   -m, --hosts HOSTS       Comma-separated targets.
+2026-05-13-12-16-16 : youssef : ERROR :   -U, --user LOGIN        SSH login.
+2026-05-13-12-16-16 : youssef : ERROR :   -l, --log-dir DIR       Log directory. history.log is created inside it.
+2026-05-13-12-16-16 : youssef : ERROR :   -U, --user LOGIN        SSH login.
+2026-05-13-12-16-16 : youssef : ERROR :   -p, --port PORT         SSH port.
+2026-05-13-12-16-16 : youssef : ERROR :   -T, --timeout SECONDS   SSH connection timeout.
+2026-05-13-12-16-16 : youssef : ERROR :   -p, --port PORT         SSH port.
+2026-05-13-12-16-16 : youssef : ERROR :   -f, --fork              Fork mode for multi-target execution.
+2026-05-13-12-16-16 : youssef : ERROR :   -T, --timeout SECONDS   SSH connection timeout.
+2026-05-13-12-16-16 : youssef : ERROR :   -f, --fork              Fork mode for multi-target execution.
+2026-05-13-12-16-16 : youssef : ERROR :   -t, --thread            Thread-pool mode via xargs -P.
+2026-05-13-12-16-16 : youssef : ERROR :   -t, --thread            Thread-pool mode via xargs -P.
+2026-05-13-12-16-16 : youssef : ERROR :   -s, --subshell          Subshell mode.
+2026-05-13-12-16-16 : youssef : ERROR :   -s, --subshell          Subshell mode.
+2026-05-13-12-16-16 : youssef : ERROR :   -j, --jobs N            Worker count for thread mode.
+2026-05-13-12-16-16 : youssef : ERROR :   -j, --jobs N            Worker count for thread mode.
+2026-05-13-12-16-16 : youssef : ERROR :   -r, --restore-defaults  Install default config/log paths (root only).
+2026-05-13-12-16-16 : youssef : ERROR :   -r, --restore-defaults  Install default config/log paths (root only).
+2026-05-13-12-16-16 : youssef : ERROR :   -N, --no-root-check     Skip local EUID check for sensitive remote actions.
+2026-05-13-12-16-16 : youssef : ERROR :   -n, --dry-run           Print intended actions without remote changes.
+2026-05-13-12-16-16 : youssef : ERROR :   -N, --no-root-check     Skip local EUID check for sensitive remote actions.
+2026-05-13-12-16-16 : youssef : ERROR :   -v, --verbose           Print extra diagnostic messages.
+2026-05-13-12-16-16 : youssef : ERROR :   -n, --dry-run           Print intended actions without remote changes.
+2026-05-13-12-16-16 : youssef : ERROR : 
+2026-05-13-12-16-16 : youssef : ERROR :   -v, --verbose           Print extra diagnostic messages.
+2026-05-13-12-16-16 : youssef : ERROR : Remote administration:
+2026-05-13-12-16-16 : youssef : ERROR : 
+2026-05-13-12-16-16 : youssef : ERROR : Remote administration:
+2026-05-13-12-16-16 : youssef : ERROR :   validate-hosts
+2026-05-13-12-16-16 : youssef : ERROR :   validate-hosts
+2026-05-13-12-16-16 : youssef : ERROR :   sessions [who|w]
+2026-05-13-12-16-16 : youssef : ERROR :   sessions [who|w]
+2026-05-13-12-16-16 : youssef : ERROR :   create-user USER
+2026-05-13-12-16-16 : youssef : ERROR :   create-user USER
+2026-05-13-12-16-16 : youssef : ERROR :   delete-user USER
+2026-05-13-12-16-16 : youssef : ERROR :   add-user-group USER GROUP
+2026-05-13-12-16-16 : youssef : ERROR :   delete-user USER
+2026-05-13-12-16-16 : youssef : ERROR :   add-user-group USER GROUP
+2026-05-13-12-16-16 : youssef : ERROR :   remove-user-group USER GROUP
+2026-05-13-12-16-16 : youssef : ERROR :   lock-user USER
+2026-05-13-12-16-16 : youssef : ERROR :   remove-user-group USER GROUP
+2026-05-13-12-16-16 : youssef : ERROR :   unlock-user USER
+2026-05-13-12-16-16 : youssef : ERROR :   lock-user USER
+2026-05-13-12-16-16 : youssef : ERROR :   unlock-user USER
+2026-05-13-12-16-16 : youssef : ERROR : 
+2026-05-13-12-16-16 : youssef : ERROR : 
+2026-05-13-12-16-16 : youssef : ERROR : Backup, restore, audit, maintenance:
+2026-05-13-12-16-16 : youssef : ERROR :   backup -S DIR [-D DIR] [--compress] [--encrypt] [--remote TARGET] [--tag NAME]
+2026-05-13-12-16-16 : youssef : ERROR : Backup, restore, audit, maintenance:
+2026-05-13-12-16-16 : youssef : ERROR :   restore -A ARCHIVE [-T DIR]
+2026-05-13-12-16-16 : youssef : ERROR :   backup -S DIR [-D DIR] [--compress] [--encrypt] [--remote TARGET] [--tag NAME]
+2026-05-13-12-16-16 : youssef : ERROR :   restore -A ARCHIVE [-T DIR]
+2026-05-13-12-16-16 : youssef : ERROR :   audit [--perms] [--logins] [--ports] [--all]
+2026-05-13-12-16-16 : youssef : ERROR :   maintain [--update] [--clean]
+2026-05-13-12-16-16 : youssef : ERROR :   audit [--perms] [--logins] [--ports] [--all]
+2026-05-13-12-16-16 : youssef : ERROR :   maintain [--update] [--clean]
+2026-05-13-12-16-16 : youssef : ERROR :   schedule --add "M H DOM MON DOW" "COMMAND"
+2026-05-13-12-16-16 : youssef : ERROR :   schedule --list
+2026-05-13-12-16-16 : youssef : ERROR :   schedule --add "M H DOM MON DOW" "COMMAND"
+2026-05-13-12-16-16 : youssef : ERROR :   schedule --remove
+2026-05-13-12-16-16 : youssef : ERROR :   schedule --list
+2026-05-13-12-16-16 : youssef : ERROR :   schedule --remove
+2026-05-13-12-16-16 : youssef : ERROR :   logs [-n LINES]
+2026-05-13-12-16-16 : youssef : ERROR :   logs [-n LINES]
+2026-05-13-12-16-16 : youssef : ERROR : 
+2026-05-13-12-16-16 : youssef : ERROR : Monitoring and reports:
+2026-05-13-12-16-16 : youssef : ERROR : 
+2026-05-13-12-16-16 : youssef : ERROR :   monitor [--check] [--alert N] [--csv] [--html] [--notify] [--interactive]
+2026-05-13-12-16-16 : youssef : ERROR : Monitoring and reports:
+2026-05-13-12-16-16 : youssef : ERROR :   monitor [--check] [--alert N] [--csv] [--html] [--notify] [--interactive]
+2026-05-13-12-16-16 : youssef : ERROR :   metrics
+2026-05-13-12-16-16 : youssef : ERROR : 
+2026-05-13-12-16-16 : youssef : ERROR :   metrics
+2026-05-13-12-16-16 : youssef : ERROR : Other:
+2026-05-13-12-16-16 : youssef : ERROR : 
+2026-05-13-12-16-16 : youssef : ERROR : Other:
+2026-05-13-12-16-16 : youssef : ERROR :   archive-logs [DIR]
+2026-05-13-12-16-16 : youssef : ERROR :   benchmark [light|medium|heavy]
+2026-05-13-12-16-16 : youssef : ERROR :   archive-logs [DIR]
+2026-05-13-12-16-16 : youssef : ERROR : 
+2026-05-13-12-16-16 : youssef : ERROR :   benchmark [light|medium|heavy]
+2026-05-13-12-16-16 : youssef : ERROR : Exit codes:
+2026-05-13-12-16-16 : youssef : ERROR : 
+2026-05-13-12-16-16 : youssef : ERROR :   0 success; 2 usage; 3 config; 4 host validation; 10 privileges;
+2026-05-13-12-16-16 : youssef : ERROR : Exit codes:
+2026-05-13-12-16-16 : youssef : ERROR :   20 SSH; 21 remote command; 30 no targets; 100 invalid option;
+2026-05-13-12-16-16 : youssef : ERROR :   0 success; 2 usage; 3 config; 4 host validation; 10 privileges;
+2026-05-13-12-16-16 : youssef : ERROR :   101 missing parameter; 109 dependency; 110 invalid parameter; 111 cron.
+2026-05-13-12-16-16 : youssef : ERROR :   20 SSH; 21 remote command; 30 no targets; 100 invalid option;
+2026-05-13-12-16-16 : youssef : ERROR :   101 missing parameter; 109 dependency; 110 invalid parameter; 111 cron.
+2026-05-13-12-38-14 : youssef : ERROR : sysremote: missing required command
+2026-05-13-12-38-14 : youssef : ERROR : sysremote: missing required command
+2026-05-13-12-38-14 : youssef : ERROR : 
+2026-05-13-12-38-14 : youssef : ERROR : sysremote - unified Linux/Bash remote administration toolkit
+2026-05-13-12-38-14 : youssef : ERROR : 
+2026-05-13-12-38-14 : youssef : ERROR : sysremote - unified Linux/Bash remote administration toolkit
+2026-05-13-12-38-14 : youssef : ERROR : Synopsis:
+2026-05-13-12-38-14 : youssef : ERROR : 
+2026-05-13-12-38-14 : youssef : ERROR :   sysremote [global options] command [arguments]
+2026-05-13-12-38-14 : youssef : ERROR : Synopsis:
+2026-05-13-12-38-14 : youssef : ERROR : 
+2026-05-13-12-38-14 : youssef : ERROR :   sysremote [global options] command [arguments]
+2026-05-13-12-38-14 : youssef : ERROR : Global options:
+2026-05-13-12-38-14 : youssef : ERROR :   -h, --help              Show this help.
+2026-05-13-12-38-14 : youssef : ERROR : 
+2026-05-13-12-38-14 : youssef : ERROR : Global options:
+2026-05-13-12-38-14 : youssef : ERROR :   --version               Show version.
+2026-05-13-12-38-14 : youssef : ERROR :   -c, --config FILE       Load a config file.
+2026-05-13-12-38-14 : youssef : ERROR :   -h, --help              Show this help.
+2026-05-13-12-38-14 : youssef : ERROR :   -i, --inventory FILE    Load target inventory, one host per line.
+2026-05-13-12-38-14 : youssef : ERROR :   --version               Show version.
+2026-05-13-12-38-14 : youssef : ERROR :   -c, --config FILE       Load a config file.
+2026-05-13-12-38-14 : youssef : ERROR :   -m, --hosts HOSTS       Comma-separated targets.
+2026-05-13-12-38-14 : youssef : ERROR :   -i, --inventory FILE    Load target inventory, one host per line.
+2026-05-13-12-38-14 : youssef : ERROR :   -l, --log-dir DIR       Log directory. history.log is created inside it.
+2026-05-13-12-38-14 : youssef : ERROR :   -U, --user LOGIN        SSH login.
+2026-05-13-12-38-14 : youssef : ERROR :   -m, --hosts HOSTS       Comma-separated targets.
+2026-05-13-12-38-14 : youssef : ERROR :   -l, --log-dir DIR       Log directory. history.log is created inside it.
+2026-05-13-12-38-14 : youssef : ERROR :   -p, --port PORT         SSH port.
+2026-05-13-12-38-14 : youssef : ERROR :   -T, --timeout SECONDS   SSH connection timeout.
+2026-05-13-12-38-14 : youssef : ERROR :   -U, --user LOGIN        SSH login.
+2026-05-13-12-38-14 : youssef : ERROR :   -p, --port PORT         SSH port.
+2026-05-13-12-38-14 : youssef : ERROR :   -f, --fork              Fork mode for multi-target execution.
+2026-05-13-12-38-14 : youssef : ERROR :   -t, --thread            Thread-pool mode via xargs -P.
+2026-05-13-12-38-14 : youssef : ERROR :   -T, --timeout SECONDS   SSH connection timeout.
+2026-05-13-12-38-14 : youssef : ERROR :   -s, --subshell          Subshell mode.
+2026-05-13-12-38-14 : youssef : ERROR :   -f, --fork              Fork mode for multi-target execution.
+2026-05-13-12-38-14 : youssef : ERROR :   -j, --jobs N            Worker count for thread mode.
+2026-05-13-12-38-14 : youssef : ERROR :   -t, --thread            Thread-pool mode via xargs -P.
+2026-05-13-12-38-14 : youssef : ERROR :   -s, --subshell          Subshell mode.
+2026-05-13-12-38-14 : youssef : ERROR :   -r, --restore-defaults  Install default config/log paths (root only).
+2026-05-13-12-38-14 : youssef : ERROR :   -j, --jobs N            Worker count for thread mode.
+2026-05-13-12-38-14 : youssef : ERROR :   -N, --no-root-check     Skip local EUID check for sensitive remote actions.
+2026-05-13-12-38-14 : youssef : ERROR :   -n, --dry-run           Print intended actions without remote changes.
+2026-05-13-12-38-14 : youssef : ERROR :   -r, --restore-defaults  Install default config/log paths (root only).
+2026-05-13-12-38-14 : youssef : ERROR :   -N, --no-root-check     Skip local EUID check for sensitive remote actions.
+2026-05-13-12-38-14 : youssef : ERROR :   -v, --verbose           Print extra diagnostic messages.
+2026-05-13-12-38-14 : youssef : ERROR :   -n, --dry-run           Print intended actions without remote changes.
+2026-05-13-12-38-14 : youssef : ERROR : 
+2026-05-13-12-38-14 : youssef : ERROR :   -v, --verbose           Print extra diagnostic messages.
+2026-05-13-12-38-14 : youssef : ERROR : Remote administration:
+2026-05-13-12-38-14 : youssef : ERROR : 
+2026-05-13-12-38-14 : youssef : ERROR :   validate-hosts
+2026-05-13-12-38-14 : youssef : ERROR : Remote administration:
+2026-05-13-12-38-14 : youssef : ERROR :   sessions [who|w]
+2026-05-13-12-38-14 : youssef : ERROR :   validate-hosts
+2026-05-13-12-38-14 : youssef : ERROR :   create-user USER
+2026-05-13-12-38-14 : youssef : ERROR :   sessions [who|w]
+2026-05-13-12-38-14 : youssef : ERROR :   delete-user USER
+2026-05-13-12-38-14 : youssef : ERROR :   create-user USER
+2026-05-13-12-38-14 : youssef : ERROR :   add-user-group USER GROUP
+2026-05-13-12-38-14 : youssef : ERROR :   delete-user USER
+2026-05-13-12-38-14 : youssef : ERROR :   remove-user-group USER GROUP
+2026-05-13-12-38-14 : youssef : ERROR :   lock-user USER
+2026-05-13-12-38-14 : youssef : ERROR :   add-user-group USER GROUP
+2026-05-13-12-38-14 : youssef : ERROR :   unlock-user USER
+2026-05-13-12-38-14 : youssef : ERROR :   remove-user-group USER GROUP
+2026-05-13-12-38-14 : youssef : ERROR :   lock-user USER
+2026-05-13-12-38-14 : youssef : ERROR : 
+2026-05-13-12-38-14 : youssef : ERROR : Backup, restore, audit, maintenance:
+2026-05-13-12-38-14 : youssef : ERROR :   unlock-user USER
+2026-05-13-12-38-14 : youssef : ERROR :   backup -S DIR [-D DIR] [--compress] [--encrypt] [--remote TARGET] [--tag NAME]
+2026-05-13-12-38-14 : youssef : ERROR : 
+2026-05-13-12-38-14 : youssef : ERROR :   restore -A ARCHIVE [-T DIR]
+2026-05-13-12-38-14 : youssef : ERROR : Backup, restore, audit, maintenance:
+2026-05-13-12-38-14 : youssef : ERROR :   audit [--perms] [--logins] [--ports] [--all]
+2026-05-13-12-38-14 : youssef : ERROR :   backup -S DIR [-D DIR] [--compress] [--encrypt] [--remote TARGET] [--tag NAME]
+2026-05-13-12-38-14 : youssef : ERROR :   maintain [--update] [--clean]
+2026-05-13-12-38-14 : youssef : ERROR :   restore -A ARCHIVE [-T DIR]
+2026-05-13-12-38-14 : youssef : ERROR :   audit [--perms] [--logins] [--ports] [--all]
+2026-05-13-12-38-14 : youssef : ERROR :   schedule --add "M H DOM MON DOW" "COMMAND"
+2026-05-13-12-38-14 : youssef : ERROR :   schedule --list
+2026-05-13-12-38-14 : youssef : ERROR :   maintain [--update] [--clean]
+2026-05-13-12-38-14 : youssef : ERROR :   schedule --remove
+2026-05-13-12-38-14 : youssef : ERROR :   schedule --add "M H DOM MON DOW" "COMMAND"
+2026-05-13-12-38-14 : youssef : ERROR :   schedule --list
+2026-05-13-12-38-14 : youssef : ERROR :   logs [-n LINES]
+2026-05-13-12-38-14 : youssef : ERROR :   schedule --remove
+2026-05-13-12-38-14 : youssef : ERROR : 
+2026-05-13-12-38-14 : youssef : ERROR :   logs [-n LINES]
+2026-05-13-12-38-14 : youssef : ERROR : Monitoring and reports:
+2026-05-13-12-38-14 : youssef : ERROR :   monitor [--check] [--alert N] [--csv] [--html] [--notify] [--interactive]
+2026-05-13-12-38-14 : youssef : ERROR : 
+2026-05-13-12-38-14 : youssef : ERROR : Monitoring and reports:
+2026-05-13-12-38-14 : youssef : ERROR :   metrics
+2026-05-13-12-38-14 : youssef : ERROR : 
+2026-05-13-12-38-14 : youssef : ERROR :   monitor [--check] [--alert N] [--csv] [--html] [--notify] [--interactive]
+2026-05-13-12-38-14 : youssef : ERROR :   metrics
+2026-05-13-12-38-14 : youssef : ERROR : Other:
+2026-05-13-12-38-14 : youssef : ERROR : 
+2026-05-13-12-38-14 : youssef : ERROR :   archive-logs [DIR]
+2026-05-13-12-38-14 : youssef : ERROR :   benchmark [light|medium|heavy]
+2026-05-13-12-38-14 : youssef : ERROR : Other:
+2026-05-13-12-38-14 : youssef : ERROR : 
+2026-05-13-12-38-14 : youssef : ERROR :   archive-logs [DIR]
+2026-05-13-12-38-14 : youssef : ERROR :   benchmark [light|medium|heavy]
+2026-05-13-12-38-14 : youssef : ERROR : Exit codes:
+2026-05-13-12-38-14 : youssef : ERROR : 
+2026-05-13-12-38-14 : youssef : ERROR :   0 success; 2 usage; 3 config; 4 host validation; 10 privileges;
+2026-05-13-12-38-14 : youssef : ERROR : Exit codes:
+2026-05-13-12-38-14 : youssef : ERROR :   20 SSH; 21 remote command; 30 no targets; 100 invalid option;
+2026-05-13-12-38-14 : youssef : ERROR :   101 missing parameter; 109 dependency; 110 invalid parameter; 111 cron.
+2026-05-13-12-38-14 : youssef : ERROR :   0 success; 2 usage; 3 config; 4 host validation; 10 privileges;
+2026-05-13-12-38-14 : youssef : ERROR :   20 SSH; 21 remote command; 30 no targets; 100 invalid option;
+2026-05-13-12-38-14 : youssef : ERROR :   101 missing parameter; 109 dependency; 110 invalid parameter; 111 cron.

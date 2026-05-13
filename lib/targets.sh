@@ -1,4 +1,4 @@
-# * Lecture et preparation des cibles.
+# Target inventory handling.
 
 add_target_host() {
   local host
@@ -6,7 +6,7 @@ add_target_host() {
 
   [ -z "$host" ] && return
   if ! validate_host "$host"; then
-    die "$EX_HOST_VALIDATION" "cible refusee par validation: $host"
+    die "$EX_HOST_VALIDATION" "target rejected by validation: $host"
   fi
 
   TARGET_HOSTS+=("$host")
@@ -17,10 +17,10 @@ read_inventory() {
   local line
 
   [ -z "$file" ] && return
-  [ -f "$file" ] || die "$EX_CONFIG" "inventaire introuvable: $file"
-  [ -r "$file" ] || die "$EX_CONFIG" "inventaire illisible: $file"
+  [ -f "$file" ] || die "$EX_CONFIG" "inventory not found: $file"
+  [ -r "$file" ] || die "$EX_CONFIG" "inventory is not readable: $file"
 
-  log_info "lecture inventaire: $file"
+  log_info "reading inventory: $file"
   while IFS= read -r line || [ -n "$line" ]; do
     line="${line%%#*}"
     line="$(trim "$line")"
@@ -64,6 +64,6 @@ load_targets() {
   dedupe_targets
 
   if [ "${#TARGET_HOSTS[@]}" -eq 0 ]; then
-    die "$EX_MISSING_PARAM" "aucune cible; utiliser -m ou -i/INVENTORY_FILE"
+    die "$EX_MISSING_PARAM" "no targets; use -m or -i/INVENTORY_FILE"
   fi
 }

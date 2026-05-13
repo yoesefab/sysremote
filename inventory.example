@@ -1,6 +1,3 @@
-# Une cible DNS ou IPv4 par ligne.
-# Les lignes vides et les commentaires sont ignores.
-
-srv-app-01.example.internal
-srv-db-01.example.internal
-192.0.2.10
+# One validated DNS name or IPv4 address per line.
+localhost
+127.0.0.1

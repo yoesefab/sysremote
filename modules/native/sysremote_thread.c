@@ -15,6 +15,7 @@
 #include <time.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 
 #define MAX_HOSTS    1024
 #define MAX_LINE     256
@@ -58,6 +59,21 @@ static long now_ms(void) {
     return ts.tv_sec * 1000L + ts.tv_nsec / 1000000L;
 }
 
+static void safe_name(const char *input, char *output, size_t output_size) {
+    size_t j = 0;
+    if (output_size == 0) return;
+    for (size_t i = 0; input[i] != '\0' && j + 1 < output_size; i++) {
+        char c = input[i];
+        if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ||
+            (c >= '0' && c <= '9') || c == '.' || c == '_' || c == '-') {
+            output[j++] = c;
+        } else {
+            output[j++] = '_';
+        }
+    }
+    output[j] = '\0';
+}
+
 static int load_hosts(Config *cfg, const char *path) {
     FILE *f = fopen(path, "r");
     if (!f) { perror(path); return -1; }
@@ -75,21 +91,52 @@ static int load_hosts(Config *cfg, const char *path) {
 }
 
 static int exec_cmd(const ThreadArg *arg) {
-    char log_path[512];
-    snprintf(log_path, sizeof(log_path), "%s/%s.log", arg->log_dir, arg->host);
-    char cmd[MAX_CMD + 512];
+    char log_path[1024];
+    char safe_host[MAX_LINE];
+    char port_str[16];
+    char connect_timeout[64];
+    char user_host[MAX_LINE + 64];
+    int log_fd;
+    int status;
+    pid_t pid;
 
-    if (arg->scp_mode) {
-        snprintf(cmd, sizeof(cmd),
-            "scp -o StrictHostKeyChecking=no -o BatchMode=yes -P %d '%s' '%s@%s:%s' >%s 2>&1",
-            arg->port, arg->scp_src, arg->user, arg->host, arg->scp_dst, log_path);
-    } else {
-        snprintf(cmd, sizeof(cmd),
-            "ssh -o StrictHostKeyChecking=no -o ConnectTimeout=%d "
-            "-o BatchMode=yes -p %d '%s@%s' %s >%s 2>&1",
-            arg->timeout, arg->port, arg->user, arg->host, arg->command, log_path);
+    safe_name(arg->host, safe_host, sizeof(safe_host));
+    snprintf(log_path, sizeof(log_path), "%s/%s.log", arg->log_dir, safe_host);
+    snprintf(port_str, sizeof(port_str), "%d", arg->port);
+    snprintf(connect_timeout, sizeof(connect_timeout), "ConnectTimeout=%d", arg->timeout);
+
+    pid = fork();
+    if (pid < 0) return 127;
+    if (pid == 0) {
+        log_fd = open(log_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        if (log_fd < 0) _exit(127);
+        dup2(log_fd, STDOUT_FILENO);
+        dup2(log_fd, STDERR_FILENO);
+        close(log_fd);
+
+        if (arg->scp_mode) {
+            char dst[MAX_LINE * 2 + 128];
+            snprintf(dst, sizeof(dst), "%s@%s:%s", arg->user, arg->host, arg->scp_dst);
+            char *const argv[] = {
+                "scp", "-o", "StrictHostKeyChecking=no",
+                "-o", "BatchMode=yes", "-P", port_str,
+                (char *)arg->scp_src, dst, NULL
+            };
+            execvp("scp", argv);
+        } else {
+            snprintf(user_host, sizeof(user_host), "%s@%s", arg->user, arg->host);
+            char *const argv[] = {
+                "ssh", "-o", "StrictHostKeyChecking=no",
+                "-o", connect_timeout, "-o", "BatchMode=yes",
+                "-p", port_str, user_host, (char *)arg->command, NULL
+            };
+            execvp("ssh", argv);
+        }
+        _exit(127);
     }
-    return system(cmd);
+
+    if (waitpid(pid, &status, 0) < 0) return 127;
+    return status;
 }
 
 static void *thread_worker(void *data) {
@@ -211,9 +258,10 @@ int main(int argc, char **argv) {
         fprintf(stderr, "ERREUR: commande requise après --\n"); return 1;
     }
 
-    char mkdir_cmd[512];
-    snprintf(mkdir_cmd, sizeof(mkdir_cmd), "mkdir -p %s", cfg.log_dir);
-    if (system(mkdir_cmd) != 0) fprintf(stderr, "AVERTISSEMENT: mkdir -p échoué\n");
+    if (mkdir(cfg.log_dir, 0755) != 0 && errno != EEXIST) {
+        perror("mkdir log-dir");
+        return 1;
+    }
 
     if (load_hosts(&cfg, hosts_file) < 0) return 1;
     return run_thread(&cfg);
