@@ -19,7 +19,7 @@ cmd_backup() {
 
   check_dep rsync
   [ -n "$src" ] || die "$EX_MISSING_PARAM" "backup source is required (-S)"
-  [ -d "$src" ] || die "$EX_CONFIG" "backup source not found: $src"
+  [ -d "$src" ] || die "$EX_FILE_NOT_FOUND" "backup source not found: $src"
   if [ -n "$tag" ]; then
     validate_safe_label "$tag" || die "$EX_INVALID_PARAM" "invalid backup tag: $tag"
   fi

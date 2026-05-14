@@ -23,11 +23,11 @@ load_config() {
   [ -n "$file" ] || return 0
 
   if [ ! -f "$file" ]; then
-    [ "$explicit" = "true" ] && die "$EX_CONFIG" "configuration not found: $file"
+    [ "$explicit" = "true" ] && die "$EX_FILE_NOT_FOUND" "configuration not found: $file"
     return 0
   fi
 
-  [ -r "$file" ] || die "$EX_CONFIG" "configuration is not readable: $file"
+  [ -r "$file" ] || die "$EX_PRIVILEGE" "configuration is not readable: $file"
 
   log_info "loading configuration: $file"
   while IFS= read -r line || [ -n "$line" ]; do

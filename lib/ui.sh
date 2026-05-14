@@ -54,10 +54,24 @@ Other:
   archive-logs [DIR]
   benchmark [light|medium|heavy]
 
-Exit codes:
-  0 success; 2 usage; 3 config; 4 host validation; 10 privileges;
-  20 SSH; 21 remote command; 30 no targets; 100 invalid option;
-  101 missing parameter; 109 dependency; 110 invalid parameter; 111 cron.
+Codes de sortie (généraux) :
+  0   succès
+  2   erreur d’usage ou de commande
+  3   erreur de configuration ou d’état local
+  4   validation d’hôte (cible rejetée)
+  21  commande distante en échec
+  30  aucune cible
+
+Des codes d’erreur spécifiques sont aussi utilisés :
+  100 : option inconnue
+  101 : paramètre manquant
+  102 : fichier introuvable
+  103 : cible inaccessible (SSH)
+  104 : accès refusé (privilèges ou lecture de fichier)
+  105 : valeur ou argument invalide
+  109 : dépendance système manquante
+  110 : erreur de parallélisme (mode thread / workers)
+  111 : erreur liée à la tâche planifiée (cron)
 USAGE
 }
 

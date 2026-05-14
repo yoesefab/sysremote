@@ -102,9 +102,9 @@ run_on_targets_fork() {
 run_on_targets_thread() {
   local remote_command="$1"
   local status_dir result
-  status_dir="$(mktemp -d "${TMPDIR:-/tmp}/sysremote-thread.XXXXXX")" || die "$EX_CONFIG" "cannot create temporary directory"
+  status_dir="$(mktemp -d "${TMPDIR:-/tmp}/sysremote-thread.XXXXXX")" || die "$EX_PARALLEL" "cannot create temporary directory for parallel workers"
 
-  export SSH_USER SSH_PORT SSH_TIMEOUT DRY_RUN EX_OK EX_SSH EX_REMOTE STATUS_DIR="$status_dir" REMOTE_COMMAND="$remote_command"
+  export SSH_USER SSH_PORT SSH_TIMEOUT DRY_RUN EX_OK EX_SSH EX_REMOTE EX_PARALLEL STATUS_DIR="$status_dir" REMOTE_COMMAND="$remote_command"
   export -f log_error ssh_exec safe_status_name
 
   printf '%s\0' "${TARGET_HOSTS[@]}" | xargs -0 -n 1 -P "$THREAD_JOBS" bash -c '

@@ -1108,3 +1108,28 @@
 2026-05-14-19-07-00 : youssef : INFOS : localhost status=OK threshold=80 cpu=0 ram=0 disk=0 uptime=dry-run load=dry-run
 2026-05-14-19-07-00 : youssef : INFOS : localhost health=OK
 2026-05-14-19-07-00 : youssef : INFOS : csv report updated: /home/youssef/Documents/Github/sysremote/reports/rapport_sysremote.csv
+2026-05-14-21-29-29 : youssef : INFOS : localhost OK
+2026-05-14-21-29-29 : youssef : INFOS : benchmark workload=light workers=4
+2026-05-14-21-29-29 : youssef : INFOS : mode=normal task=1 pid=184546 start
+2026-05-14-21-29-29 : youssef : INFOS : mode=normal task=1 pid=184546 end
+2026-05-14-21-29-29 : youssef : INFOS : mode=normal task=2 pid=184546 start
+2026-05-14-21-29-30 : youssef : INFOS : mode=normal task=2 pid=184546 end
+2026-05-14-21-29-30 : youssef : INFOS : benchmark mode=normal tasks=2 delay=0.10s elapsed_ms=217
+2026-05-14-21-29-30 : youssef : INFOS : mode=fork task=1 pid=184568 start
+2026-05-14-21-29-30 : youssef : INFOS : mode=fork task=2 pid=184569 start
+2026-05-14-21-29-30 : youssef : INFOS : mode=fork task=2 pid=184569 end
+2026-05-14-21-29-30 : youssef : INFOS : mode=fork task=1 pid=184568 end
+2026-05-14-21-29-30 : youssef : INFOS : benchmark mode=fork tasks=2 delay=0.10s elapsed_ms=112
+2026-05-14-21-29-30 : youssef : INFOS : mode=thread task=1 pid=184581 start
+2026-05-14-21-29-30 : youssef : INFOS : mode=thread task=2 pid=184582 start
+2026-05-14-21-29-30 : youssef : INFOS : mode=thread task=1 pid=184581 end
+2026-05-14-21-29-30 : youssef : INFOS : mode=thread task=2 pid=184582 end
+2026-05-14-21-29-30 : youssef : INFOS : benchmark mode=thread tasks=2 delay=0.10s elapsed_ms=124
+2026-05-14-21-29-30 : youssef : INFOS : mode=subshell task=1 pid=184594 start
+2026-05-14-21-29-30 : youssef : INFOS : mode=subshell task=1 pid=184594 end
+2026-05-14-21-29-30 : youssef : INFOS : mode=subshell task=2 pid=184594 start
+2026-05-14-21-29-30 : youssef : INFOS : mode=subshell task=2 pid=184594 end
+2026-05-14-21-29-30 : youssef : INFOS : benchmark mode=subshell tasks=2 delay=0.10s elapsed_ms=229
+2026-05-14-21-29-30 : youssef : INFOS : archive created: /tmp/sysremote-smoke.184519/archives/sysremote-logs-20260514-212930.tar.gz
+2026-05-14-21-29-30 : youssef : INFOS : [dry-run] backup source=/tmp/sysremote-smoke.184519/source dest=/tmp/sysremote-smoke.184519/backups/snap-20260514-212930 compress=true encrypt=false remote=none
+2026-05-14-21-29-31 : youssef : ERROR : /home/youssef/Documents/Github/sysremote/lib/commands.sh: line 227: cmd_monitor: command not found

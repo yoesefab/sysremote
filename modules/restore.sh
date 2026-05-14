@@ -15,7 +15,7 @@ cmd_restore() {
   require_root_for_sensitive_action
   check_dep tar
   [ -n "$archive" ] || die "$EX_MISSING_PARAM" "restore archive is required (-A)"
-  [ -f "$archive" ] || die "$EX_CONFIG" "archive not found: $archive"
+  [ -f "$archive" ] || die "$EX_FILE_NOT_FOUND" "archive not found: $archive"
 
   if [ "$DRY_RUN" = "true" ]; then
     printf '[dry-run] restore archive=%s target=%s\n' "$archive" "$target"

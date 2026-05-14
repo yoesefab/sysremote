@@ -17,8 +17,8 @@ read_inventory() {
   local line
 
   [ -z "$file" ] && return
-  [ -f "$file" ] || die "$EX_CONFIG" "inventory not found: $file"
-  [ -r "$file" ] || die "$EX_CONFIG" "inventory is not readable: $file"
+  [ -f "$file" ] || die "$EX_FILE_NOT_FOUND" "inventory not found: $file"
+  [ -r "$file" ] || die "$EX_PRIVILEGE" "inventory is not readable: $file"
 
   log_info "reading inventory: $file"
   while IFS= read -r line || [ -n "$line" ]; do
