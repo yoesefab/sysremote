@@ -7,3 +7,7 @@ Horodatage,Machine,CPU%,RAM%,Disque%,Uptime,Load Average,Statut
 "2026-05-12 18:57:09","localhost",0,0,0,"dry-run","dry-run",OK
 "2026-05-12 18:58:19","localhost",0,0,0,"dry-run","dry-run",OK
 "2026-05-12 18:59:09","localhost",0,0,0,"dry-run","dry-run",OK
+"2026-05-14 12:06:05","localhost",0,0,0,"dry-run","dry-run",OK
+"2026-05-14 12:23:54","localhost",0,0,0,"dry-run","dry-run",OK
+"2026-05-14 19:07:00","localhost",0,0,0,"dry-run","dry-run",OK
+"2026-05-14 19:45:25","localhost",0,70,73,"11:15","2.96, 2.12, 1.54",OK

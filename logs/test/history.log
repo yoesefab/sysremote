@@ -1024,3 +1024,87 @@
 2026-05-12-18-59-09 : youssef : INFOS : localhost status=OK threshold=80 cpu=0 ram=0 disk=0 uptime=dry-run load=dry-run
 2026-05-12-18-59-09 : youssef : INFOS : localhost health=OK
 2026-05-12-18-59-09 : youssef : INFOS : csv report updated: /home/youssef/Documents/Github/sys/reports/rapport_sysremote.csv
+2026-05-14-12-06-04 : youssef : INFOS : localhost OK
+2026-05-14-12-06-04 : youssef : INFOS : benchmark workload=light workers=4
+2026-05-14-12-06-04 : youssef : INFOS : mode=normal task=1 pid=47 start
+2026-05-14-12-06-04 : youssef : INFOS : mode=normal task=1 pid=47 end
+2026-05-14-12-06-04 : youssef : INFOS : mode=normal task=2 pid=47 start
+2026-05-14-12-06-04 : youssef : INFOS : mode=normal task=2 pid=47 end
+2026-05-14-12-06-04 : youssef : INFOS : benchmark mode=normal tasks=2 delay=0.10s elapsed_ms=220
+2026-05-14-12-06-04 : youssef : INFOS : mode=fork task=1 pid=67 start
+2026-05-14-12-06-04 : youssef : INFOS : mode=fork task=2 pid=68 start
+2026-05-14-12-06-04 : youssef : INFOS : mode=fork task=2 pid=68 end
+2026-05-14-12-06-04 : youssef : INFOS : mode=fork task=1 pid=67 end
+2026-05-14-12-06-04 : youssef : INFOS : benchmark mode=fork tasks=2 delay=0.10s elapsed_ms=120
+2026-05-14-12-06-04 : youssef : INFOS : mode=thread task=1 pid=80 start
+2026-05-14-12-06-04 : youssef : INFOS : mode=thread task=2 pid=81 start
+2026-05-14-12-06-04 : youssef : INFOS : mode=thread task=1 pid=80 end
+2026-05-14-12-06-04 : youssef : INFOS : mode=thread task=2 pid=81 end
+2026-05-14-12-06-04 : youssef : INFOS : benchmark mode=thread tasks=2 delay=0.10s elapsed_ms=135
+2026-05-14-12-06-04 : youssef : INFOS : mode=subshell task=1 pid=91 start
+2026-05-14-12-06-04 : youssef : INFOS : mode=subshell task=1 pid=91 end
+2026-05-14-12-06-04 : youssef : INFOS : mode=subshell task=2 pid=91 start
+2026-05-14-12-06-04 : youssef : INFOS : mode=subshell task=2 pid=91 end
+2026-05-14-12-06-04 : youssef : INFOS : benchmark mode=subshell tasks=2 delay=0.10s elapsed_ms=218
+2026-05-14-12-06-05 : youssef : INFOS : archive created: /tmp/sysremote-smoke.25/archives/sysremote-logs-20260514-120604.tar.gz
+2026-05-14-12-06-05 : youssef : INFOS : [dry-run] backup source=/tmp/sysremote-smoke.25/source dest=/tmp/sysremote-smoke.25/backups/snap-20260514-120605 compress=true encrypt=false remote=none
+2026-05-14-12-06-05 : youssef : INFOS : [dry-run] monitor localhost
+2026-05-14-12-06-05 : youssef : INFOS : localhost status=OK threshold=80 cpu=0 ram=0 disk=0 uptime=dry-run load=dry-run
+2026-05-14-12-06-05 : youssef : INFOS : localhost health=OK
+2026-05-14-12-06-05 : youssef : INFOS : csv report updated: /home/youssef/Documents/Github/sysremote/reports/rapport_sysremote.csv
+2026-05-14-12-23-53 : youssef : INFOS : localhost OK
+2026-05-14-12-23-53 : youssef : INFOS : benchmark workload=light workers=4
+2026-05-14-12-23-53 : youssef : INFOS : mode=normal task=1 pid=101060 start
+2026-05-14-12-23-53 : youssef : INFOS : mode=normal task=1 pid=101060 end
+2026-05-14-12-23-53 : youssef : INFOS : mode=normal task=2 pid=101060 start
+2026-05-14-12-23-53 : youssef : INFOS : mode=normal task=2 pid=101060 end
+2026-05-14-12-23-53 : youssef : INFOS : benchmark mode=normal tasks=2 delay=0.10s elapsed_ms=215
+2026-05-14-12-23-53 : youssef : INFOS : mode=fork task=1 pid=101083 start
+2026-05-14-12-23-53 : youssef : INFOS : mode=fork task=2 pid=101084 start
+2026-05-14-12-23-53 : youssef : INFOS : mode=fork task=2 pid=101084 end
+2026-05-14-12-23-53 : youssef : INFOS : mode=fork task=1 pid=101083 end
+2026-05-14-12-23-53 : youssef : INFOS : benchmark mode=fork tasks=2 delay=0.10s elapsed_ms=111
+2026-05-14-12-23-53 : youssef : INFOS : mode=thread task=1 pid=101096 start
+2026-05-14-12-23-53 : youssef : INFOS : mode=thread task=2 pid=101097 start
+2026-05-14-12-23-53 : youssef : INFOS : mode=thread task=1 pid=101096 end
+2026-05-14-12-23-53 : youssef : INFOS : mode=thread task=2 pid=101097 end
+2026-05-14-12-23-53 : youssef : INFOS : benchmark mode=thread tasks=2 delay=0.10s elapsed_ms=130
+2026-05-14-12-23-53 : youssef : INFOS : mode=subshell task=1 pid=101107 start
+2026-05-14-12-23-53 : youssef : INFOS : mode=subshell task=1 pid=101107 end
+2026-05-14-12-23-53 : youssef : INFOS : mode=subshell task=2 pid=101107 start
+2026-05-14-12-23-54 : youssef : INFOS : mode=subshell task=2 pid=101107 end
+2026-05-14-12-23-54 : youssef : INFOS : benchmark mode=subshell tasks=2 delay=0.10s elapsed_ms=214
+2026-05-14-12-23-54 : youssef : INFOS : archive created: /tmp/sysremote-smoke.101038/archives/sysremote-logs-20260514-122354.tar.gz
+2026-05-14-12-23-54 : youssef : INFOS : [dry-run] backup source=/tmp/sysremote-smoke.101038/source dest=/tmp/sysremote-smoke.101038/backups/snap-20260514-122354 compress=true encrypt=false remote=none
+2026-05-14-12-23-54 : youssef : INFOS : [dry-run] monitor localhost
+2026-05-14-12-23-54 : youssef : INFOS : localhost status=OK threshold=80 cpu=0 ram=0 disk=0 uptime=dry-run load=dry-run
+2026-05-14-12-23-54 : youssef : INFOS : localhost health=OK
+2026-05-14-12-23-54 : youssef : INFOS : csv report updated: /home/youssef/Documents/Github/sysremote/reports/rapport_sysremote.csv
+2026-05-14-19-06-59 : youssef : INFOS : localhost OK
+2026-05-14-19-07-00 : youssef : INFOS : benchmark workload=light workers=4
+2026-05-14-19-07-00 : youssef : INFOS : mode=normal task=1 pid=127460 start
+2026-05-14-19-07-00 : youssef : INFOS : mode=normal task=1 pid=127460 end
+2026-05-14-19-07-00 : youssef : INFOS : mode=normal task=2 pid=127460 start
+2026-05-14-19-07-00 : youssef : INFOS : mode=normal task=2 pid=127460 end
+2026-05-14-19-07-00 : youssef : INFOS : benchmark mode=normal tasks=2 delay=0.10s elapsed_ms=204
+2026-05-14-19-07-00 : youssef : INFOS : mode=fork task=1 pid=127522 start
+2026-05-14-19-07-00 : youssef : INFOS : mode=fork task=2 pid=127523 start
+2026-05-14-19-07-00 : youssef : INFOS : mode=fork task=1 pid=127522 end
+2026-05-14-19-07-00 : youssef : INFOS : mode=fork task=2 pid=127523 end
+2026-05-14-19-07-00 : youssef : INFOS : benchmark mode=fork tasks=2 delay=0.10s elapsed_ms=104
+2026-05-14-19-07-00 : youssef : INFOS : mode=thread task=1 pid=127535 start
+2026-05-14-19-07-00 : youssef : INFOS : mode=thread task=2 pid=127536 start
+2026-05-14-19-07-00 : youssef : INFOS : mode=thread task=1 pid=127535 end
+2026-05-14-19-07-00 : youssef : INFOS : mode=thread task=2 pid=127536 end
+2026-05-14-19-07-00 : youssef : INFOS : benchmark mode=thread tasks=2 delay=0.10s elapsed_ms=114
+2026-05-14-19-07-00 : youssef : INFOS : mode=subshell task=1 pid=127545 start
+2026-05-14-19-07-00 : youssef : INFOS : mode=subshell task=1 pid=127545 end
+2026-05-14-19-07-00 : youssef : INFOS : mode=subshell task=2 pid=127545 start
+2026-05-14-19-07-00 : youssef : INFOS : mode=subshell task=2 pid=127545 end
+2026-05-14-19-07-00 : youssef : INFOS : benchmark mode=subshell tasks=2 delay=0.10s elapsed_ms=205
+2026-05-14-19-07-00 : youssef : INFOS : archive created: /tmp/sysremote-smoke.127438/archives/sysremote-logs-20260514-190700.tar.gz
+2026-05-14-19-07-00 : youssef : INFOS : [dry-run] backup source=/tmp/sysremote-smoke.127438/source dest=/tmp/sysremote-smoke.127438/backups/snap-20260514-190700 compress=true encrypt=false remote=none
+2026-05-14-19-07-00 : youssef : INFOS : [dry-run] monitor localhost
+2026-05-14-19-07-00 : youssef : INFOS : localhost status=OK threshold=80 cpu=0 ram=0 disk=0 uptime=dry-run load=dry-run
+2026-05-14-19-07-00 : youssef : INFOS : localhost health=OK
+2026-05-14-19-07-00 : youssef : INFOS : csv report updated: /home/youssef/Documents/Github/sysremote/reports/rapport_sysremote.csv
